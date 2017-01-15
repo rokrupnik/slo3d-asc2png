@@ -17,18 +17,15 @@ with open('../data/TM1_426_106.asc', 'r') as ascfile:
             z = xyz[2]
             
             z = int(float(z) * 100)
-            #if (y % 2 == 0):
-            #    z = 524287
-            #else:
-            #    z = 0
 
-            row += ((z >> 14) & 127,)
-            row += ((z >> 7) & 127,)
-            row += (z & 127,)
+            row += ((z >> 16) & 255,)
+            row += ((z >> 8) & 255,)
+            row += (z & 255,)
+
         rows.append(row)
 
-with open('test.png', 'wb') as pngfile:
-    w = png.Writer(dim, dim, alpha=False, bitdepth=7)
+with open('../demo/heights.png', 'wb') as pngfile:
+    w = png.Writer(dim, dim, alpha=False, bitdepth=8)
     w.write(pngfile, rows)
 
 end = time.time()
