@@ -8,7 +8,7 @@ start = time.time()
 
 dim = 1000
 bytes = []
-with open('../data/arso/TM1_426_105.asc', 'r') as ascfile:
+with open('../data/arso/TM1_425_105.asc', 'r') as ascfile:
     csvreader = csv.reader(ascfile, delimiter=';')
 
     for x in range(dim):
@@ -28,9 +28,9 @@ pixels = np.reshape(bytes, (dim, dim, 3))
 pixels = np.rot90(pixels)
 pixels = pixels.astype(np.uint8, copy=False)
 
-for i in range(9):
+for i in range(10, 0, -1):
     im = Image.fromarray(pixels, mode='RGB')
-    im.save('../demo/heights10-' + str(i) + '.png', 'PNG')
+    im.save('../data/' + str(i) + '/425_105.png', 'PNG')
 
     print(pixels.shape)
     pixels = pixels[::2, ::2]
