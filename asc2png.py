@@ -6,15 +6,16 @@ import time
 
 start = time.time()
 
-dim = 1001
+dim = 1000
 bytes = []
-with open('../data/old/TM1_426_106.asc', 'r') as ascfile:
+with open('../data/arso/TM1_426_105.asc', 'r') as ascfile:
     csvreader = csv.reader(ascfile, delimiter=';')
 
     for x in range(dim):
         row = ()
         for y in range(dim):
             xyz = next(csvreader)
+
             z = xyz[2]
 
             z = int(float(z) * 100)
@@ -24,10 +25,15 @@ with open('../data/old/TM1_426_106.asc', 'r') as ascfile:
             bytes.append(z & 255)
 
 pixels = np.reshape(bytes, (dim, dim, 3))
+pixels = np.rot90(pixels)
 pixels = pixels.astype(np.uint8, copy=False)
 
-im = Image.fromarray(pixels, mode='RGB')
-im.save('../demo/heights00.png', 'PNG')
+for i in range(9):
+    im = Image.fromarray(pixels, mode='RGB')
+    im.save('../demo/heights10-' + str(i) + '.png', 'PNG')
+
+    print(pixels.shape)
+    pixels = pixels[::2, ::2]
 
 end = time.time()
 print(end - start)
